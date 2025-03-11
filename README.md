@@ -54,7 +54,7 @@ do
 done
 ```
 
-* Step 2: Running INSBreakpointInfer.py
+* Step 3: Running INSBreakpointInfer.py
 
 The results are in dir **100x_1_output**, **100x_5_output** and **100x_15_output**
 ```shell
