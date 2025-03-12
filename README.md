@@ -28,6 +28,10 @@ options:
 ### Quick start with example data
 Here we show an example of 100x read with 1%, 5% and 15% events TDNA insertion (tdna) in **rice** genome (WT:5000-15000).
 * Step 1: Preparing TDNA insertion region bed with TDNA name
+
+The bed has four coloums: **ChrID, start, end, TDNAname**
+
+The region (end-start) in bed should **not** be too large, 10000 bp is recommanded.
 ```shell
 cd Example
 mkdir test
@@ -37,9 +41,7 @@ echo -e "WT\t5000\t15000\ttdna" > test.bed
 
 * Step 2: Preparing alignment results with regions
 
-The bed has four coloums: **ChrID, start, end, TDNAname**
 
-The region (end-start) in bed should **not** be too large, 10000 bp is recommanded.
 ```shell
 for prefix in 1 5 15;
 do
