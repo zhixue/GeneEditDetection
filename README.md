@@ -58,7 +58,7 @@ done
 
 The results are in dir **100x_1_output**, **100x_5_output** and **100x_15_output**
 ```shell
-for prefix in 1 2 15;
+for prefix in 1 5 15;
 do
   python3 ../../INSBreakpointInfer.py -b test.bed -r 100x_${prefix}_ref_region.sam -i 100x_${prefix}_tdna.sam -o 100x_${prefix}_output
 done
