@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
     @Author: Hongzhang Xue
-    @Modified: 2024/6/21 8:30 AM
+    @Modified: 2025/3/18 8:30 AM
     @Usage: python3 INSBreakpointInfer.py -b region.bed -r region.sorted.sam -i TDNA.sorted.sam -o xx_dir
     # xx_dir:
     # xx_dir.tsv xx_dir.breakpoint.sam
@@ -42,14 +42,14 @@ def cigarsplit(st):
 def bool_paired(reada, readb):
     if reada.query_name != readb.query_name:    # exclude different reads
         return 0
-    if reada.flag & 64 != readb.flag & 64 : # not both left/ right read
+    if reada.flag & 64 != readb.flag & 64: # not both left/ right read
         return 0
     if not (reada.cigartuples and readb.cigartuples):  # unmapped end in paired-end reads
         return 0
     if len(readb.cigartuples) == 1:  # exclude only include M
         return 1
     if reada.flag & 16 == readb.flag & 16:  # mapped to the same strand
-        if reada.cigartuples[0][0] == 0 and readb.cigartuples[-1][0] == 0 or \
+        if (reada.cigartuples[0][0] == 0 and readb.cigartuples[-1][0] == 0) or \
                 (reada.cigartuples[-1][0] == 0 and readb.cigartuples[0][0] == 0):   # 32S43M & 32M43S
             return 1
         if len(reada.cigartuples) == 3 and reada.cigartuples[-1][0] != 0 and reada.cigartuples[-1][1] <= 3 and readb.cigartuples[0][0] == 0 or \
@@ -78,7 +78,7 @@ if __name__ == "__main__":
     parser.add_argument('-i', '--tdna_sam_path', metavar='<TDNA.sam>',
                         help='Path of sam in TDNA', type=str, required=True)
     parser.add_argument('-o', '--output_dir', metavar='<output_directory>',
-                        help='Path of output', type=str, required=True)
+                        help='Path of output of Quast', type=str, required=True)
     args = vars(parser.parse_args())
 
 
@@ -240,8 +240,9 @@ if __name__ == "__main__":
                         ref_filtered_read += [one]
                         tdna_filtered_read += [res]
                         #print(one, res)
+                        print(one.query_name)
                         pass_flag = 1
-                    break
+                    continue
         #except:
         #    print(cigar)
         #    exit()
@@ -322,6 +323,7 @@ if __name__ == "__main__":
                                     left_sum_freq_0,
                                     left_sum_freq_Omit,
                                     left_points_coords_freq,
+                                    left_points_reads
                                     )]) + '\n')
     fouttsv.write(
         '\t'.join([str(x) for x in (current_chr, current_region, chr_region[current_chr][current_region], 'Right',
@@ -330,6 +332,7 @@ if __name__ == "__main__":
                                     right_sum_freq_0,
                                     right_sum_freq_Omit,
                                     right_points_coords_freq,
+                                    right_points_reads
                                     )]) + '\n')
 
     # write sam
