@@ -45,14 +45,16 @@ echo -e "WT\t5000\t15000\ttdna" > test.bed
 ```shell
 for prefix in 1 5 15;
 do
-    refbam=../100x/100x_${prefix}_ref.bam
-    tdnabam=../100x/100x_${prefix}_tdna.bam
+  refbam=../100x/100x_${prefix}_ref.bam
+  tdnabam=../100x/100x_${prefix}_tdna.bam
 
-  samtools index $refbam
-  samtools view -h -M -L test.bed -O SAM -o 100x_${prefix}_ref_region.sam $refbam
+  samtools sort -o 100x_${prefix}_ref.sort.bam $refbam
+  samtools index 100x_${prefix}_ref.sort.bam
+  samtools view -h -M -L test.bed -O SAM -o 100x_${prefix}_ref_region.sam 100x_${prefix}_ref.sort.bam
 
-  samtools index $tdnabam
-  samtools view -h -F 4 -O SAM -o 100x_${prefix}_tdna.sam $tdnabam
+  samtools sort -o 100x_${prefix}_tdna.sort.bam $tdnabam
+  samtools index 100x_${prefix}_tdna.sort.bam
+  samtools view -h -F 4 -O SAM -o 100x_${prefix}_tdna.sam 100x_${prefix}_tdna.sort.bam
 done
 ```
 
