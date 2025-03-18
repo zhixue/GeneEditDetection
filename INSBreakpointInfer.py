@@ -212,6 +212,7 @@ if __name__ == "__main__":
                                                       left_sum_freq_0,
                                                       left_sum_freq_Omit,
                                                       left_points_coords_freq,
+                                                      left_points_reads
                                                       )]) + '\n')
                 fouttsv.write('\t'.join([str(x) for x in (current_chr, current_region, chr_region[current_chr][current_region], 'Right',
                                                       right_max_freq_coord,
@@ -219,6 +220,7 @@ if __name__ == "__main__":
                                                       right_sum_freq_0,
                                                       right_sum_freq_Omit,
                                                       right_points_coords_freq,
+                                                      right_points_reads
                                                       )]) + '\n')
             current_chr = chrn
             current_region = find_region
